@@ -1,0 +1,460 @@
+/* The operator console.
+ *
+ * Same tokens as the customer's side, arranged for a different job. Nothing
+ * floats, nothing is a desktop: this is a table somebody reads all day, so the
+ * density is higher, the surfaces are flatter, and the only colour that means
+ * anything is the state of an account.
+ */
+
+.console {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: var(--font-sans);
+}
+
+.console-bar {
+  flex-shrink: 0;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: 0 var(--space-4);
+  color: var(--desktop-ink);
+  background: var(--desktop-chrome);
+  border-bottom: 1px solid var(--desktop-line);
+}
+.console-bar__brand { display: flex; align-items: center; gap: 9px; font-size: var(--type-3); font-weight: 750; letter-spacing: -0.02em; }
+.console-bar__role { color: var(--desktop-ink-muted); font-size: var(--type-2); }
+.console-bar__spacer { flex: 1; }
+.console-bar .button { color: var(--desktop-ink); }
+.console-bar .button:hover { background: var(--desktop-grid); }
+
+.console-body { flex: 1; min-height: 0; display: grid; grid-template-columns: 216px minmax(0, 1fr); }
+
+.console-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--space-4) var(--space-3);
+  background: var(--surface-sunken);
+  border-right: 1px solid var(--line);
+}
+.console-nav__item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 10px;
+  color: var(--ink-2);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-2);
+  font: inherit;
+  font-size: var(--type-3);
+  font-weight: 550;
+  text-align: left;
+  cursor: pointer;
+}
+.console-nav__item span { flex: 1; }
+.console-nav__item small { color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.console-nav__item:hover { color: var(--ink); background: var(--surface); }
+.console-nav__item[aria-current="page"] { color: var(--ink); background: var(--surface); border-color: var(--line); font-weight: 680; }
+.console-nav__rule {
+  margin: auto 0 0;
+  display: flex;
+  gap: 7px;
+  padding: 10px;
+  color: var(--ink-3);
+  font-size: var(--type-2);
+  line-height: 1.5;
+}
+.console-nav__rule .icon { flex-shrink: 0; margin-top: 1px; }
+
+/* What this box is, kept quiet. It is not a thing anybody uses day to day — it
+   is the thing they are asked for when something is wrong, so it wants to be
+   findable and never loud. Sits under the rule, which holds the auto margin. */
+.console-nav__build {
+  margin: 0;
+  padding: 8px 10px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  border-top: 1px solid var(--line);
+  color: var(--ink-3);
+  font-size: var(--type-1);
+  line-height: 1.45;
+}
+.console-nav__build span:last-child {
+  font-variant-numeric: tabular-nums;
+  opacity: 0.75;
+}
+
+.console-main { min-width: 0; overflow: auto; padding: var(--space-5) var(--space-5) var(--space-8); }
+
+.console-head { display: flex; align-items: flex-start; gap: var(--space-4); margin-bottom: var(--space-4); }
+.console-head h1 { margin: 0 0 3px; font-size: var(--type-6); font-weight: 700; letter-spacing: -0.03em; }
+.console-head p { margin: 0; max-width: 62ch; color: var(--ink-3); font-size: var(--type-3); line-height: 1.5; }
+.console-head__actions { margin-left: auto; display: flex; gap: var(--space-2); flex-shrink: 0; }
+
+.console-empty { max-width: 62ch; color: var(--ink-3); font-size: var(--type-3); line-height: 1.6; }
+.console-muted { color: var(--ink-3); }
+
+.console-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: var(--type-3); }
+.console-table thead th {
+  padding: 7px 10px;
+  color: var(--ink-3);
+  font-size: var(--type-2);
+  font-weight: 600;
+  text-align: left;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--line);
+}
+.console-table tbody th, .console-table tbody td { padding: 9px 10px; border-bottom: 1px solid var(--line); vertical-align: middle; text-align: left; font-weight: 400; }
+.console-table tbody tr:hover th, .console-table tbody tr:hover td { background: var(--surface-sunken); }
+.console-table tbody th { min-width: 180px; }
+.console-table small { display: block; margin-top: 1px; color: var(--ink-3); font-size: var(--type-2); }
+.console-table__actions { width: 1%; white-space: nowrap; }
+.console-table__actions .button + .button { margin-left: var(--space-2); }
+
+.console-link {
+  padding: 0;
+  color: var(--ink);
+  background: none;
+  border: 0;
+  font: inherit;
+  font-weight: 650;
+  text-align: left;
+  cursor: pointer;
+}
+.console-link:hover { color: var(--accent-ink); text-decoration: underline; text-underline-offset: 3px; }
+
+.allowance { display: flex; flex-direction: column; gap: 4px; min-width: 132px; }
+.allowance__bar { height: 5px; background: var(--surface-muted); border-radius: 999px; overflow: hidden; }
+.allowance__bar span { display: block; height: 100%; background: var(--accent); }
+.allowance__bar span[data-full="true"] { background: var(--danger); }
+.allowance__text { display: flex; gap: 5px; align-items: baseline; font-variant-numeric: tabular-nums; }
+.allowance__text small { color: var(--ink-3); font-size: var(--type-2); }
+
+.state { display: inline-flex; align-items: center; gap: 5px; padding: 2px 8px; border-radius: 999px; font-size: var(--type-2); font-weight: 600; }
+.state--live { color: var(--private-strong); background: var(--private-soft); }
+.state--suspended { color: var(--danger-strong); background: var(--danger-soft); }
+.state--waiting { color: var(--public-strong); background: var(--public-soft); }
+
+.console-assign { display: flex; gap: var(--space-2); }
+.console-assign select { flex: 1; }
+.console-form__actions { display: flex; gap: var(--space-2); margin-top: var(--space-4); }
+
+/* The inputs in a plan row are fixed and the label takes what is left. The
+ * design system's field is width:100% by default, which in a row like this
+ * takes everything and crushes the label to nothing, so both are pinned here
+ * rather than left to whichever rule loads last. */
+.plan-row { display: flex; align-items: center; gap: var(--space-2); margin-bottom: var(--space-2); }
+.plan-row__label { flex: 1 1 auto; min-width: 9ch; font-size: var(--type-3); }
+.plan-row .field__input.plan-row__amount { flex: 0 0 96px; width: 96px; }
+.plan-row .field__input.plan-row__choice { flex: 0 0 208px; width: 208px; }
+.plan-row__unit { color: var(--ink-3); font-size: var(--type-2); }
+.plan-row__toggle { display: inline-flex; align-items: center; gap: 6px; color: var(--ink-2); font-size: var(--type-2); white-space: nowrap; }
+
+.plan-grid { display: grid; gap: var(--space-3); grid-template-columns: repeat(auto-fill, minmax(272px, 1fr)); }
+.plan-card { display: flex; flex-direction: column; gap: var(--space-3); padding: var(--space-4); background: var(--surface-raised); border: 1px solid var(--line); border-radius: var(--radius-2); }
+.plan-card header { display: flex; align-items: baseline; gap: var(--space-3); }
+.plan-card h2 { margin: 0; flex: 1; font-size: var(--type-4); font-weight: 700; letter-spacing: -0.02em; }
+.plan-card header span { color: var(--ink-3); font-size: var(--type-2); white-space: nowrap; }
+.plan-card__note { margin: -4px 0 0; color: var(--ink-3); font-size: var(--type-2); line-height: 1.5; }
+.plan-card footer { margin-top: auto; display: flex; flex-direction: column; gap: 6px; }
+.plan-card footer small { color: var(--ink-3); font-size: var(--type-1); }
+
+.visually-hidden { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+@media (max-width: 900px) {
+  .console-body { grid-template-columns: minmax(0, 1fr); }
+  .console-nav { flex-direction: row; overflow-x: auto; border-right: 0; border-bottom: 1px solid var(--line); }
+  .console-nav__rule, .console-nav__build { display: none; }
+  .console-table thead { display: none; }
+  .console-table tbody tr { display: grid; gap: 4px; padding: var(--space-3) 0; border-bottom: 1px solid var(--line); }
+  .console-table tbody th, .console-table tbody td { padding: 0 var(--space-2); border: 0; }
+  .console-table__actions { width: auto; }
+}
+
+/* Branding. The one console section the box operator alone can reach: their name
+   on the product they sell, and nothing that changes what it does. */
+.console-branding { max-width: 46rem; }
+.console-branding__accent { display: grid; grid-template-columns: minmax(0, 1fr) 46px; gap: var(--space-3); align-items: end; }
+.console-branding__accent .field { margin-bottom: 0; }
+.console-branding__note { margin: var(--space-2) 0 var(--space-4); max-width: 52ch; }
+.console-branding__accent input[type="color"] {
+  height: 36px;
+  padding: 2px;
+  background: var(--surface-raised);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-2);
+  cursor: pointer;
+}
+.console-branding__assets { display: grid; gap: var(--space-5); margin-top: var(--space-8); max-width: 46rem; }
+.console-branding__assets h2 { margin: 0 0 var(--space-2); font-size: var(--type-4); font-weight: 700; }
+.console-branding__asset { display: flex; gap: var(--space-4); align-items: flex-start; padding: var(--space-4); background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-3); }
+.console-branding__asset p { margin: 0 0 var(--space-3); max-width: 52ch; color: var(--ink-3); font-size: var(--type-2); line-height: 1.5; }
+.console-branding__asset .console-form__actions { margin-top: 0; align-items: center; }
+.console-branding__preview {
+  width: 64px;
+  height: 64px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  background: var(--surface-sunken);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-2);
+  overflow: hidden;
+}
+.console-branding__preview img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.console-branding label.button { cursor: pointer; }
+
+/* The account record. Dense on purpose: this is read when something has gone
+   wrong and somebody is looking for the line that explains it. */
+.trail { list-style: none; margin: 0; padding: 0; max-height: 260px; overflow: auto; border: 1px solid var(--line); border-radius: var(--radius-2); background: var(--surface-raised); }
+.trail__row { display: grid; grid-template-columns: minmax(0, auto) minmax(0, 1fr) auto; align-items: baseline; gap: var(--space-3); padding: 7px 10px; border-bottom: 1px solid var(--line); font-size: var(--type-2); }
+.trail__row:last-child { border-bottom: 0; }
+.trail__action { color: var(--ink); font-weight: 700; white-space: nowrap; }
+.trail__detail { min-width: 0; color: var(--ink-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.trail__when { color: var(--ink-3); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+/* Finding one account among many. Client-side on purpose: the list is already
+   here, and a filter that costs a round trip is a filter people stop using. */
+.console-filter { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-3); flex-wrap: wrap; }
+.console-filter .field--inline { flex: 1 1 220px; min-width: 180px; margin: 0; }
+.console-filter__count { color: var(--ink-3); font-size: var(--type-2); font-variant-numeric: tabular-nums; margin-left: auto; }
+.segmented { display: flex; padding: 2px; background: var(--surface-muted); border: 1px solid var(--line); border-radius: var(--radius-2); }
+.segmented button { padding: 5px 10px; color: var(--ink-2); background: transparent; border: 0; border-radius: var(--radius-1); font: inherit; font-size: var(--type-2); font-weight: 650; cursor: pointer; }
+.segmented button:hover { color: var(--ink); }
+.segmented button[aria-pressed="true"] { color: var(--ink); background: var(--surface-raised); box-shadow: 0 1px 2px rgba(13, 17, 14, 0.12); }
+
+/* One account's own numbers, beside what its plan gave it. The row has to say
+   three things at a glance — which limit, what it is, and whether it is this
+   account's alone — so the value carries the distinction rather than a badge
+   sitting somewhere else on the line. */
+.limit-row { border-top: 1px solid var(--line); padding: 10px 0; }
+.limit-row:first-of-type { border-top: 0; }
+.limit-row__head { display: flex; align-items: center; gap: 12px; }
+.limit-row__label { flex: 0 0 auto; font-weight: 600; }
+.limit-row__value { flex: 1 1 auto; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.limit-row__value--own { color: var(--accent-ink); font-weight: 600; }
+.limit-row__form { margin-top: 10px; padding-left: 2px; }
+
+/* Archives. Two opposite readings on one screen — a cost while it is held and a
+   product when somebody returns — so the count and the size lead, and the row
+   below them is what can be done without opening it. */
+.console-total { text-align: right; }
+.console-total strong { display: block; font-size: 28px; line-height: 1.1; }
+.console-total span { color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.archive { border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; margin-bottom: 12px; background: var(--surface); }
+.archive__who { display: flex; align-items: baseline; gap: 10px; margin-bottom: 8px; }
+.archive__who strong { font-size: 16px; }
+.archive__due { color: var(--danger-strong); font-weight: 600; }
+.archive__destroy { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); }
+
+/* API keys. One panel on this screen carries something that will never be shown
+   again, so it is the loudest thing on the page and it stops being subtle: an
+   accent border, the secret set in mono at a size somebody can read off a
+   screen, and the copy button inside the same box rather than beside it. The
+   form under it is deliberately quieter — issuing is routine, losing the answer
+   is not. */
+.console-key-once {
+  border: 2px solid var(--accent);
+  border-radius: var(--radius);
+  background: var(--accent-wash, var(--surface));
+  padding: 18px 20px;
+  margin-bottom: 20px;
+}
+.console-key-once h2 { display: flex; align-items: center; gap: 8px; margin: 0 0 6px; font-size: 16px; }
+.console-key-once p { margin: 0 0 12px; color: var(--ink-soft); max-width: 60ch; }
+.console-key-once__value {
+  display: block;
+  font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
+  font-size: 14px;
+  line-height: 1.5;
+  /* It has to survive being selected with a mouse, so it wraps rather than
+     scrolling: half a key copied out of a scroll box is worse than none. */
+  word-break: break-all;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-2, 6px);
+  padding: 10px 12px;
+  user-select: all;
+}
+.console-key-once__actions { display: flex; gap: 10px; margin-top: 12px; }
+/* Stacked rather than a row. `Field` puts its hint *under* the input, so a row
+   with `align-items: flex-end` lines the button up with the bottom of the hint
+   and leaves it floating on its own away from the field it belongs to — which
+   is exactly how it first rendered. */
+.console-key-new { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; margin: 0 0 26px; max-width: 460px; }
+.console-key-new > *:first-child { width: 100%; }
+.console-key-kind { border: 0; margin: 0; padding: 0; display: grid; gap: 8px; width: 100%; }
+.console-key-kind legend { font-weight: 600; margin-bottom: 6px; }
+.console-key-kind__option { display: grid; grid-template-columns: auto 1fr; gap: 10px; align-items: start;
+  border: 1px solid var(--line); border-radius: var(--radius-2, 6px); padding: 10px 12px; cursor: pointer; }
+.console-key-kind__option:has(input:checked) { border-color: var(--accent); }
+.console-key-kind__option input { margin-top: 4px; }
+.console-key-kind__option span { display: grid; gap: 2px; }
+.console-key-kind__option small { color: var(--ink-soft); }
+.console-notify { margin-top: 40px; padding-top: 28px; border-top: 1px solid var(--line); }
+.console-notify > h2 { font-size: 18px; margin: 0 0 6px; }
+.console-notify__event { display: flex; gap: 8px; align-items: center; }
+.console-notify__calls { margin-top: 16px; }
+.console-bad { color: var(--danger); }
+.console-confirm { color: var(--ink-soft); margin-right: 4px; white-space: nowrap; }
+
+/* Sortable column headings. A heading is a button because it does something, but
+   it has to keep reading as a heading: same weight, same colour, same case, and
+   the only thing that changes is the arrow on the one column that is sorting. */
+.console-sort {
+  /* Fills the cell rather than hugging the words. A heading button the width of
+     its own text leaves most of a wide column dead to the mouse, and somebody
+     aiming at "Storage" and hitting the padding beside it concludes the sort is
+     broken — which is exactly what happened walking this. */
+  display: flex; width: 100%; align-items: center; justify-content: flex-start; gap: 6px;
+  background: none; border: 0; padding: 0; margin: 0;
+  font: inherit; color: inherit; letter-spacing: inherit; text-transform: inherit;
+  cursor: pointer;
+}
+.console-sort:hover { color: var(--ink); }
+.console-sort:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
+
+/* An archive this box cannot read. Marked as wrong rather than drawn as normal
+   with empty fields, because the fields are the part that cannot be trusted. */
+.archive--unreadable { border-color: var(--danger); }
+.archive--unreadable code { font-family: var(--font-mono, ui-monospace, Menlo, monospace); overflow-wrap: anywhere; }
+
+/* The transfer policy switch. One decision on the page, so it gets room and a
+   plain sentence saying what each side of it means rather than a bare toggle. */
+.console-policy { border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; margin-top: 20px; background: var(--surface); }
+.console-policy h2 { margin: 0 0 8px; font-size: 15px; }
+.console-policy p { margin: 0 0 10px; max-width: 68ch; }
+
+/* Carrying a suspension down, and moving a customer.
+
+   Both are consequential and neither is the common case, so they read as a
+   choice with a sentence rather than as a control. The move rows are a grid so
+   that fifty customers stay a list somebody can work through — who they are, one
+   destination, one button, and the row leaves the list when it has gone. */
+
+.moves { list-style: none; margin: 10px 0 0; padding: 0; border: 1px solid var(--line); border-radius: var(--radius-2); background: var(--surface-raised); }
+.moves__row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 15em) auto; align-items: center; gap: var(--space-3); padding: 10px; border-bottom: 1px solid var(--line); }
+.moves__row:last-child { border-bottom: 0; }
+.moves__who { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.moves__who strong { font-size: var(--type-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.moves__who small { color: var(--ink-3); font-size: var(--type-1); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.moves__to { min-width: 0; }
+
+@media (max-width: 620px) {
+  .moves__row { grid-template-columns: minmax(0, 1fr); }
+}
+.moves__row--single { border: 1px solid var(--line); border-radius: var(--radius-2); background: var(--surface-raised); margin-top: 10px; }
+
+/* ── The overview ──────────────────────────────────────────────────────────
+   Tiles that hold a number, and the drawing of it. The figures are large on
+   purpose: this is the screen somebody opens to answer one question quickly,
+   and a console that answers it in the same size as its body text is asking to
+   be read rather than glanced at. */
+.overview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: var(--space-3);
+  align-items: start;
+}
+.tile {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: var(--space-4);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-3);
+  background: var(--surface-raised);
+  min-width: 0;
+}
+/* The transfer tile carries a chart rather than a word, so it is given the room
+   a chart needs instead of being squeezed into a column meant for a figure. */
+.tile--wide { grid-column: span 2; }
+@media (max-width: 760px) { .tile--wide { grid-column: span 1; } }
+
+.tile h2 {
+  margin: 0;
+  font-size: var(--type-2);
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.tile__figure {
+  margin: 0;
+  font-size: 2.1rem;
+  line-height: 1.05;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.tile__note { margin: 0; font-size: var(--type-2); color: var(--ink-2); }
+.tile__note--quiet { color: var(--ink-3); }
+.tile__states { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 0; padding: 0; list-style: none; }
+.tile__link {
+  align-self: flex-start;
+  margin-top: auto;
+  padding: 6px 0 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  border: 0;
+  background: none;
+  color: var(--accent-ink);
+  font: inherit;
+  font-size: var(--type-2);
+  cursor: pointer;
+}
+.tile__link:hover { text-decoration: underline; }
+
+/* The band meter. Same shape as the allowance bar an account already carries,
+   because it is the same kind of statement one level up. */
+.meter { height: 7px; margin-top: 2px; background: var(--surface-muted); border-radius: 999px; overflow: hidden; }
+.meter span { display: block; height: 100%; background: var(--accent); border-radius: 999px; }
+.meter span[data-full="true"] { background: var(--danger); }
+
+/* One series, so no legend: the heading says what it is. The bars are the
+   accent rather than a colour of our own, so a white-labelled box draws its own
+   brand here and never ours. Rounded at the data end only, anchored to the
+   baseline, with a surface gap between them so thirty days read as thirty
+   things. */
+.spark { margin-top: 8px; }
+.spark__bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 72px;
+  padding: 0;
+  border-bottom: 1px solid var(--line);
+}
+.spark__bar {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 3px 3px 0 0;
+  background: var(--accent);
+  cursor: default;
+}
+.spark__bar[data-empty="true"] { background: var(--line); }
+.spark__bar[data-on="true"] { background: var(--accent-strong); }
+.spark__bar:focus-visible { outline: 2px solid var(--focus); outline-offset: 1px; }
+.spark__read { margin: 5px 0 0; font-size: var(--type-2); color: var(--ink-2); font-variant-numeric: tabular-nums; min-height: 1.4em; }
+
+/* The licence key form. A key is long and pasted, never typed, so the field is a
+   block of monospace that shows the whole thing. */
+.licence-form { display: grid; gap: var(--space-3); max-width: 640px; margin-top: var(--space-4); }
+.licence-form textarea { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: var(--type-2); resize: vertical; word-break: break-all; }
+
+.fleet-panel { margin-top: var(--space-5); }
+.fleet-list { display: grid; gap: var(--space-2); }
+.fleet-list .tile h3 { margin: 0; font-size: var(--type-3); overflow-wrap: anywhere; }

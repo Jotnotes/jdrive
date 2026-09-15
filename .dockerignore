@@ -1,0 +1,9 @@
+.git
+**/node_modules
+server/data
+server/uploads
+server/backups
+server/archives
+server/.env
+**/.DS_Store
+# web/dist is not ignored: a release ships it compiled, and the image copies it in.

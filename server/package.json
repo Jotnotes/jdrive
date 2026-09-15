@@ -1,0 +1,31 @@
+{
+  "name": "jdrive-server",
+  "version": "0.1.0",
+  "private": true,
+  "description": "JotNotes JDrive: files, sold through hosting companies and their resellers",
+  "main": "server.js",
+  "scripts": {
+    "dev": "node --env-file=.env server.js",
+    "start": "node server.js",
+    "test": "node test.js",
+    "audit": "node audit/release-audit.js",
+    "audit:selftest": "node audit/selftest.js",
+    "audit:anchors": "node audit/anchors.js",
+    "restore": "node tools/restore.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "better-sqlite3": "^11.3.0",
+    "cors": "^2.8.5",
+    "express": "^4.21.0",
+    "express-rate-limit": "^7.4.0",
+    "express-validator": "^7.2.0",
+    "helmet": "^8.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^2.3.0",
+    "nodemailer": "^9.1.1"
+  },
+  "overrides": {
+    "qs": "^6.16.0"
+  }
+}

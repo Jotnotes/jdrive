@@ -1,0 +1,23 @@
+{
+  "name": "jdrive-web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "The desktop customers see",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "@zip.js/zip.js": "2.12.0",
+    "exceljs": "4.4.0",
+    "mammoth": "1.12.2",
+    "vite": "^5.4.11"
+  }
+}
