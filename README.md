@@ -101,6 +101,14 @@ cd server && npm test
 
 It finds every `*.test.js` under `server/` and says how many suites ran.
 
+## Documentation
+
+- [Install guide](docs/INSTALL.md) and the [articles](docs/README.md): upgrading, backups, mail, a box
+  that will not start, and how Public and Shared work
+- Bugs and feature requests: GitHub issues. Security problems: security@jotnotes.com ([SECURITY.md](SECURITY.md))
+- Contributing: [CONTRIBUTING.md](CONTRIBUTING.md)
+- The product and the Hosting edition: https://jdrive.jotnotes.com
+
 ## Licence and name
 
 The code is AGPL-3.0: run it, change it and share it, and if you offer a changed version to people over
